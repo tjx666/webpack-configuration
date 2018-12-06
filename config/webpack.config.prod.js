@@ -3,12 +3,15 @@ const autoprefixer = require('autoprefixer');
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 const OptimizeCSSAssetsPlugin = require("optimize-css-assets-webpack-plugin");
 
+
 module.exports = {
     mode: 'production',
     entry: Path.resolve(__dirname, '../src/index.js'),
     output: {
         filename: 'bundle.js',
-        path: Path.resolve(__dirname, '../dist/')
+        path: Path.resolve(__dirname, '../dist/'),
+        // 设置发布路径，到时候可以替换为 cdn服务器
+        publicPath: "./",
     },
     optimization: {
         minimizer: [
@@ -26,12 +29,17 @@ module.exports = {
                     {
                         loader: MiniCssExtractPlugin.loader,
                         options: {
-                            // you can specify a publicPath here
-                            // by default it use publicPath in webpackOptions.output
-                            publicPath: 'css'
+                            // publicPath: ''
                         }
                     },
-                    { loader: 'css-loader' },
+                    {
+                        loader: 'css-loader',
+                        options: {
+                            importLoaders: 1,
+                            modules: false,
+                            localIdentName: '[name]-[local]'
+                        }
+                    },
                     {
                         loader: 'postcss-loader',
                         options: {
@@ -54,15 +62,20 @@ module.exports = {
             },
             {
                 // 处理scss文件
-                test: /\.(scss|sass)$/,
+                test: /\.scss$/,
                 use: [
                     {
                         loader: MiniCssExtractPlugin.loader,
+                    },
+                    {
+                        loader: 'css-loader',
                         options: {
-                            publicPath: 'css'
+                            importLoaders: 1,
+                            // 关闭css modules
+                            modules: false,
+                            localIdentName: '[name]-[local]'
                         }
                     },
-                    { loader: 'css-loader ' },
                     {
                         loader: 'postcss-loader',
                         options: {
@@ -81,17 +94,41 @@ module.exports = {
                             ],
                         },
                     },
-                    { loader: 'sass-loader' }
+                    {
+                        loader: 'sass-loader'
+                    }
                 ]
+            },
+            {
+                // 处理图片
+                test: [/\.bmp$/, /\.gif$/, /\.jpe?g$/, /\.png$/],
+                loader: require.resolve('url-loader'),
+                options: {
+                    limit: 10240,
+                    name: '[name].[hash:8].[ext]',
+                    // 决定图片存放位置
+                    outputPath: './images/',
+                    // 最终路径为publicPath + name
+                    publicPath: '/dist/images'
+                },
+            },
+            {
+                // 处理字体文件
+                test: /\.(ttf|woff|woff2|eot|otf)$/,
+                loader: 'file-loader',
+                options: {
+                    name: '[name]-[hash:5].[ext]',
+                    outputPath: './font',
+                    publicPath: '/dist/font'
+                }
             }
         ]
     },
     plugins: [
         new MiniCssExtractPlugin({
-            // Options similar to the same options in webpackOptions.output
-            // both options are optional
-            filename: "[name]-[hash:5].css",
-            chunkFilename: "[id]-[hash:5].css"
+            // 打包所有css文件到 style.css
+            filename: "css/style.css",
+            chunkFilename: "[id].css"
         })
     ],
 }
