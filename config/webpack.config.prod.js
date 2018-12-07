@@ -2,6 +2,8 @@ const Path = require('path');
 const autoprefixer = require('autoprefixer');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const OptimizeCSSAssetsPlugin = require('optimize-css-assets-webpack-plugin');
+const HtmlWebpackPlugin = require('html-webpack-plugin');
+const CleanWebpackPlugin = require('clean-webpack-plugin');
 
 
 module.exports = {
@@ -48,7 +50,7 @@ module.exports = {
                 exclude: /(node_modules|bower_components)/,
                 loader: 'babel-loader',
                 options: {
-                    cacheDirectory: true,
+                    cacheDirectory: false,
                 }
             },
             {
@@ -188,6 +190,24 @@ module.exports = {
             // 打包所有css文件到 style.css
             filename: 'css/style.css',
             chunkFilename: '[id].css'
-        })
+        }),
+        new HtmlWebpackPlugin({
+            title: 'webpack-configuration-example',
+            filename: 'index.html',
+            template: Path.resolve(__dirname, '../index-template.html'),
+            inject: 'head',
+            favicon: Path.resolve(__dirname, '../favicon.ico'),
+            minify: true,
+        }),
+        new CleanWebpackPlugin([
+            'dist',         // removes 'dist' folder
+            'build/*.*',    // removes all files in 'build' folder
+            'web/*.js'      // removes all JavaScript files in 'web' folder
+        ],
+        {
+            root: Path.resolve(__dirname, '../'),
+            verbose: true,
+            exclude: [],
+        }),
     ],
 };

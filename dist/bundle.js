@@ -977,6 +977,7 @@ var asyncToGenerator_default = /*#__PURE__*/__webpack_require__.n(asyncToGenerat
 // CONCATENATED MODULE: ./src/module.js
 
 
+// ES6解构赋值，ES7 async函数
 !function () {
   var _ref2 = asyncToGenerator_default()(
   /*#__PURE__*/
