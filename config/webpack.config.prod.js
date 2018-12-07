@@ -13,7 +13,7 @@ module.exports = {
         filename: 'bundle.js',
         path: Path.resolve(__dirname, '../dist/'),
         // 设置发布路径，到时候可以替换为 cdn服务器
-        publicPath: './',
+        publicPath: '/',
     },
     optimization: {
         minimizer: [
@@ -201,8 +201,8 @@ module.exports = {
         }),
         new CleanWebpackPlugin([
             'dist',         // removes 'dist' folder
-            'build/*.*',    // removes all files in 'build' folder
-            'web/*.js'      // removes all JavaScript files in 'web' folder
+            // 'build/*.*',    // removes all files in 'build' folder
+            // 'web/*.js'      // removes all JavaScript files in 'web' folder
         ],
         {
             root: Path.resolve(__dirname, '../'),

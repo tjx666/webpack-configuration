@@ -2,9 +2,13 @@ const Path = require('path');
 const autoprefixer = require('autoprefixer');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const CleanWebpackPlugin = require('clean-webpack-plugin');
+const Webpack = require('webpack');
+const devServer = require('./webpackDevServer.config');
 
 module.exports = {
     mode: 'development',
+    devtool: 'cheap-module-source-map',
+    devServer,
     entry: {
         'entry1': Path.resolve(__dirname, '../src/index.js'),
         'entry2': Path.resolve(__dirname, '../src/module.js')
@@ -14,7 +18,7 @@ module.exports = {
         filename: '[name]-bundle.js',
         path: Path.resolve(__dirname, '../dist/'),
         // 设置发布路径，到时候可以替换为 cdn服务器
-        publicPath: './',
+        publicPath: '/',
     },
     // 默认情况下webpack只是提供了js的多种导入和输出功能。不提供es6转es5和polyfillt以及css等资源文件类型的导入
     module: {
@@ -134,7 +138,7 @@ module.exports = {
                             // 决定图片存放位置
                             outputPath: './images/',
                             // 最终路径为publicPath + name
-                            publicPath: '/dist/images'
+                            publicPath: '/images'
                         },
                     }
                 ]
@@ -148,7 +152,7 @@ module.exports = {
                         options: {
                             name: '[name]-[hash:5].[ext]',
                             outputPath: './font',
-                            publicPath: '/dist/font'
+                            publicPath: '/font'
                         }
                     }
                 ]
@@ -188,13 +192,15 @@ module.exports = {
         }),
         new CleanWebpackPlugin([
             'dist/*',         // removes 'dist' folder
-            'build/*.*',    // removes all files in 'build' folder
-            'web/*.js'      // removes all JavaScript files in 'web' folder
+            // 'build/*.*',    // removes all files in 'build' folder
+            // 'web/*.js'      // removes all JavaScript files in 'web' folder
         ],
         {
             root: Path.resolve(__dirname, '../'),
             verbose: true,
             exclude: [],
         }),
+        new Webpack.HotModuleReplacementPlugin(),
+        new Webpack.NamedModulesPlugin(),
     ],
 };
