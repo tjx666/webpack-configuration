@@ -10,13 +10,12 @@ module.exports = {
     devtool: 'cheap-module-source-map',
     devServer,
     entry: {
-        'entry1': Path.resolve(__dirname, '../src/index.js'),
-        'entry2': Path.resolve(__dirname, '../src/module.js')
+        'entry1': Path.resolve(__dirname, '../src/pageA/index.js'),
     },
     output: {
         // [name]将被替换成entry的key
         filename: '[name]-bundle.js',
-        path: Path.resolve(__dirname, '../dist/'),
+        path: Path.resolve(__dirname, '../dist/js/'),
         // 设置发布路径，到时候可以替换为 cdn服务器
         publicPath: '/',
     },
@@ -185,7 +184,7 @@ module.exports = {
         new HtmlWebpackPlugin({
             title: 'webpack-configuration-example',
             filename: 'index.html',
-            template: Path.resolve(__dirname, '../index-template.html'),
+            template: Path.resolve(__dirname, '../src/pageA/xiangjianhuan.html'),
             inject: 'head',
             favicon: Path.resolve(__dirname, '../favicon.ico'),
             minify: false,

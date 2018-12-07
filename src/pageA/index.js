@@ -1,11 +1,11 @@
 // 导入ES6, ES7 js
-import './module.js';
+import './ES6plus.js';
 
 // 导入css
-import './style1.css';
+import './style.css';
 
 // 导入scss
-import './style2.scss';
+import './style.scss';
 
 // 导入json文件
 import JsonData from './data.json';

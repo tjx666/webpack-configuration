@@ -11,7 +11,7 @@ module.exports = {
     entry: Path.resolve(__dirname, '../src/index.js'),
     output: {
         filename: 'bundle.js',
-        path: Path.resolve(__dirname, '../dist/'),
+        path: Path.resolve(__dirname, '../dist/js'),
         // 设置发布路径，到时候可以替换为 cdn服务器
         publicPath: '/',
     },
@@ -194,7 +194,7 @@ module.exports = {
         new HtmlWebpackPlugin({
             title: 'webpack-configuration-example',
             filename: 'index.html',
-            template: Path.resolve(__dirname, '../index-template.html'),
+            template: Path.resolve(__dirname, '../src/pageA/xiangjianhuan.html'),
             inject: 'head',
             favicon: Path.resolve(__dirname, '../favicon.ico'),
             minify: true,
