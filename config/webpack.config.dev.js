@@ -9,15 +9,12 @@ module.exports = {
     mode: 'development',
     devtool: 'cheap-module-source-map',
     devServer,
-    entry: {
-        'entry1': Path.resolve(__dirname, '../src/pageA/index.js'),
-    },
+    entry: Path.resolve(__dirname, '../src/index.js'),
     output: {
-        // [name]将被替换成entry的key
-        filename: '[name]-bundle.js',
+        filename: 'bundle.js',
         path: Path.resolve(__dirname, '../dist/js/'),
         // 设置发布路径，到时候可以替换为 cdn服务器
-        publicPath: '/',
+        publicPath: '/'
     },
     // 默认情况下webpack只是提供了js的多种导入和输出功能。不提供es6转es5和polyfillt以及css等资源文件类型的导入
     module: {
@@ -30,26 +27,15 @@ module.exports = {
                 exclude: /node_modules|dist/,
                 use: [
                     {
-                        loader: 'eslint-loader',
-                        options: {
-                            // eslint出现错误直接抛出异常
-                            // emitWarning: true,
-                            emitError: true,
-                            fix: false,
-                            cache: Path.resolve(__dirname, '../log/eslint.log')
-
-                        }
-                    },
-                ],
+                        loader: 'eslint-loader'
+                    }
+                ]
             },
             {
                 // 添加es6语法支持和polyfill
                 test: /\.(js|jsx|mjs)$/,
                 exclude: /(node_modules|bower_components)/,
-                loader: 'babel-loader',
-                options: {
-                    cacheDirectory: true,
-                }
+                loader: 'babel-loader'
             },
             {
                 // 处理css文件，生产环境下分离css文件
@@ -83,7 +69,7 @@ module.exports = {
                                 }),
                             ],
                         },
-                    }
+                    },
                 ]
             },
             {
@@ -91,13 +77,12 @@ module.exports = {
                 test: /\.scss$/,
                 use: [
                     {
-                        loader: 'style-loader',
+                        loader: 'style-loader'
                     },
                     {
                         loader: 'css-loader',
                         options: {
                             importLoaders: 1,
-                            // 关闭css modules
                             modules: false,
                             localIdentName: '[name]-[local]'
                         }
@@ -138,7 +123,7 @@ module.exports = {
                             outputPath: './images/',
                             // 最终路径为publicPath + name
                             publicPath: '/images'
-                        },
+                        }
                     }
                 ]
             },
@@ -174,7 +159,7 @@ module.exports = {
                 test: /\.xml$/,
                 use: [
                     {
-                        loader: 'xml-loader',
+                        loader: 'xml-loader'
                     }
                 ]
             }
@@ -184,22 +169,24 @@ module.exports = {
         new HtmlWebpackPlugin({
             title: 'webpack-configuration-example',
             filename: 'index.html',
-            template: Path.resolve(__dirname, '../src/pageA/xiangjianhuan.html'),
+            template: Path.resolve(__dirname, '../src/xiangjianhuan.html'),
             inject: 'head',
             favicon: Path.resolve(__dirname, '../favicon.ico'),
-            minify: false,
+            minify: false
         }),
-        new CleanWebpackPlugin([
-            'dist/*',         // removes 'dist' folder
-            // 'build/*.*',    // removes all files in 'build' folder
-            // 'web/*.js'      // removes all JavaScript files in 'web' folder
-        ],
-        {
-            root: Path.resolve(__dirname, '../'),
-            verbose: true,
-            exclude: [],
-        }),
+        new CleanWebpackPlugin(
+            [
+                'dist/*' // removes 'dist' folder
+                // 'build/*.*',    // removes all files in 'build' folder
+                // 'web/*.js'      // removes all JavaScript files in 'web' folder
+            ],
+            {
+                root: Path.resolve(__dirname, '../'),
+                verbose: true,
+                exclude: []
+            }
+        ),
         new Webpack.HotModuleReplacementPlugin(),
-        new Webpack.NamedModulesPlugin(),
-    ],
+        new Webpack.NamedModulesPlugin()
+    ]
 };

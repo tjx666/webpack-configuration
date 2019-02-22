@@ -8,7 +8,6 @@
 )
 - [打破砂锅问到底：详解Webpack中的sourcemap](https://segmentfault.com/a/1190000008315937)
 
-
-  
 一些截图:
 ![相见欢](https://github.com/tjx666/webpack-configuration/blob/master/screenshot/相见欢.jpg)
+![控制台输出](https://github.com/tjx666/webpack-configuration/blob/master/screenshot/output.png)

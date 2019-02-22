@@ -7,7 +7,7 @@ body {
     width: 100%;
     height: 100vh;
     /* 导入图片需要url-loader，可以把小图片处理成base64 */
-    background: url(../common/images/star-sky.png) no-repeat 0 0;
+    background: url(./common/images/star-sky.png) no-repeat 0 0;
     background-size: cover;
     background-color: black;
     color: white;
@@ -16,5 +16,5 @@ body {
 @font-face {
     font-family: '蝉羽胡杨体';
     /* 导入字体需要 file-loader */
-    src: url('../common/font/蝉羽胡杨体.ttf') format('truetype');
+    src: url('./common/font/蝉羽胡杨体.ttf') format('truetype');
 }

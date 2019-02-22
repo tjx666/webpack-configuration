@@ -5,7 +5,6 @@ const OptimizeCSSAssetsPlugin = require('optimize-css-assets-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const CleanWebpackPlugin = require('clean-webpack-plugin');
 
-
 module.exports = {
     mode: 'production',
     entry: Path.resolve(__dirname, '../src/index.js'),
@@ -13,7 +12,7 @@ module.exports = {
         filename: 'bundle.js',
         path: Path.resolve(__dirname, '../dist/js'),
         // 设置发布路径，到时候可以替换为 cdn服务器
-        publicPath: '/',
+        publicPath: '/'
     },
     optimization: {
         minimizer: [
@@ -21,7 +20,6 @@ module.exports = {
             new OptimizeCSSAssetsPlugin({})
         ]
     },
-    // 默认情况下webpack只是提供了js的多种导入和输出功能。不提供es6转es5和polyfillt以及css等资源文件类型的导入
     module: {
         rules: [
             {
@@ -32,17 +30,9 @@ module.exports = {
                 exclude: /node_modules|dist/,
                 use: [
                     {
-                        loader: 'eslint-loader',
-                        options: {
-                            // eslint出现错误直接抛出异常
-                            // emitWarning: true,
-                            emitError: true,
-                            fix: false,
-                            cache: Path.resolve(__dirname, '../log/eslint.log')
-
-                        }
-                    },
-                ],
+                        loader: 'eslint-loader'
+                    }
+                ]
             },
             {
                 // 添加es6语法支持和polyfill
@@ -50,7 +40,7 @@ module.exports = {
                 exclude: /(node_modules|bower_components)/,
                 loader: 'babel-loader',
                 options: {
-                    cacheDirectory: false,
+                    cacheDirectory: false
                 }
             },
             {
@@ -88,7 +78,7 @@ module.exports = {
                                 }),
                             ],
                         },
-                    }
+                    },
                 ]
             },
             {
@@ -96,7 +86,7 @@ module.exports = {
                 test: /\.scss$/,
                 use: [
                     {
-                        loader: MiniCssExtractPlugin.loader,
+                        loader: MiniCssExtractPlugin.loader
                     },
                     {
                         loader: 'css-loader',
@@ -143,7 +133,7 @@ module.exports = {
                             outputPath: './images/',
                             // 最终路径为publicPath + name
                             publicPath: '/dist/images'
-                        },
+                        }
                     }
                 ]
             },
@@ -179,7 +169,7 @@ module.exports = {
                 test: /\.xml$/,
                 use: [
                     {
-                        loader: 'xml-loader',
+                        loader: 'xml-loader'
                     }
                 ]
             }
@@ -194,20 +184,22 @@ module.exports = {
         new HtmlWebpackPlugin({
             title: 'webpack-configuration-example',
             filename: 'index.html',
-            template: Path.resolve(__dirname, '../src/pageA/xiangjianhuan.html'),
+            template: Path.resolve(__dirname, '../src/xiangjianhuan.html'),
             inject: 'head',
             favicon: Path.resolve(__dirname, '../favicon.ico'),
-            minify: true,
+            minify: true
         }),
-        new CleanWebpackPlugin([
-            'dist',         // removes 'dist' folder
-            // 'build/*.*',    // removes all files in 'build' folder
-            // 'web/*.js'      // removes all JavaScript files in 'web' folder
-        ],
-        {
-            root: Path.resolve(__dirname, '../'),
-            verbose: true,
-            exclude: [],
-        }),
-    ],
+        new CleanWebpackPlugin(
+            [
+                'dist' // removes 'dist' folder
+                // 'build/*.*',    // removes all files in 'build' folder
+                // 'web/*.js'      // removes all JavaScript files in 'web' folder
+            ],
+            {
+                root: Path.resolve(__dirname, '../'),
+                verbose: true,
+                exclude: []
+            }
+        )
+    ]
 };
